@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    function:
+      definition: messageConsumer
+    stream:
+      bindings:
+        messageConsumer-in-0:
+          destination: topic.message
+          content-type: application/json
+          group: message-consumer
+      kafka:
+        binder:
+          brokers: ${KAFKA_BROKERS}
+          auto-create-topics: true
+          consumer-properties:
+            auto.offset.reset: earliest

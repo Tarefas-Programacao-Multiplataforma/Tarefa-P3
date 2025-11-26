@@ -1,0 +1,24 @@
+name: Build e deploy da Imagem Docker
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v5
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/modulo3:latest .
+
+      - name: Push
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/modulo3:latest
